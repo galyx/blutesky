@@ -112,7 +112,7 @@ class JobTaskController extends Controller
             'delivery_date_task.required' => 'O campo Data é obrigatório!',
         ];
 
-        foreach($request->custom_field_required as $custom_field_required){
+        foreach(($request->custom_field_required ?? []) as $custom_field_required){
             switch($custom_field_required['field_type']){
                 case 'number':
                 case 'text':
