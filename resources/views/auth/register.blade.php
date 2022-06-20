@@ -8,7 +8,7 @@
     @isset($job_name)
         <title>JOB - {{$job_name}}</title>
     @else
-        <title>Sistema TESCJ</title>
+        <title>Sistema TESKFY</title>
     @endisset
 
     <link rel="stylesheet" href="{{asset('plugins/bootstrap-4.6.1/css/bootstrap.min.css')}}">
@@ -26,7 +26,7 @@
                     @csrf
                     <div class="row">
                         <div class="form-group col-12 text-center text-white mt-3">
-                            <h4>Bem vindo a TESCJ</h4>
+                            <h4>Bem vindo a TESKFY</h4>
                             <p>Crie uma conta para utilizar os serviços</p>
                         </div>
 

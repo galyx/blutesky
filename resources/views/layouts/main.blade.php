@@ -8,7 +8,7 @@
     @isset($job_name)
         <title>JOB - {{$job_name}}</title>
     @else
-        <title>Sistema TESCJ</title>
+        <title>Sistema TESKFY</title>
     @endisset
 
     <link rel="stylesheet" href="{{asset('plugins/bootstrap-4.6.1/css/bootstrap.min.css')}}">
@@ -26,7 +26,7 @@
     <header>
         <div class="container py-2 header">
             <div class="row">
-                <div class="col-12 col-sm-2"><a href="{{route('dash')}}"><h3 class="text-white">TESCJ</h3></a></div>
+                <div class="col-12 col-sm-2"><a href="{{route('dash')}}"><h3 class="text-white">TESKFY</h3></a></div>
                 <div class="col-12 col-sm-3">
                     @if (Request::is('job/*'))
                         <select class="selectpicker show-tick select-job" data-live-search="true" data-size="5">
@@ -104,7 +104,7 @@
     </main>
 
     <footer>
-        <div class="container py-2 footer-direitos">TESCJ  {{date('Y')}} - todos os direitos reservados</div>
+        <div class="container py-2 footer-direitos">TESKFY  {{date('Y')}} - todos os direitos reservados</div>
     </footer>
 
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
