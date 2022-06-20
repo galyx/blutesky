@@ -24,8 +24,8 @@
                     <div class="collapse show" id="{{\Str::slug($list->list_name)}}-{{$list->id}}">
                         <div class="row rel-list rel-list-{{$list->id}}" style="min-height: 10px;">
                             @foreach ($list->jobTasks->sortBy('position') as $task)
-                                <div data-task_id="{{$task->id}}" class="col-12 my-2 item-rel-btn rel-p-0 position-relative">
-                                    <div class="row py-2">
+                                <div class="col-12 my-2 item-rel rel-p-0 position-relative">
+                                    <div data-task_id="{{$task->id}}" class="row py-2 item-rel-btn">
                                         <div class="col-12 col-sm-3"><h5 class="text-white">{{$task->task_title}}</h5></div>
                                         <div class="col-12 col-sm-2"><h5 class="text-white">{{$task->total_time_task}}</h5></div>
                                         <div class="col-12 col-sm-3">
