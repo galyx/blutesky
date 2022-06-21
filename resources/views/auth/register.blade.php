@@ -108,6 +108,12 @@
                 }
             });
         });
+
+        $('#form-login').find('input').on('keyup', function (e) {
+            if (e.keyCode == 13) {
+                $('#btn-login').trigger('click');
+            }
+        });
     </script>
 </body>
 </html>

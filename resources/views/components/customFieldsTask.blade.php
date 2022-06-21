@@ -21,7 +21,7 @@
             <div class="px-2 py-1 border rounded">
                 @foreach ($field->list_name as $key => $list_name)
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}][]" {{in_array($list_name,$field_value->field_array) ? 'checked' : ''}} value="{{$list_name}}">
+                        <input type="checkbox" class="form-check-input" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}][]" {{in_array($list_name,($field_value->field_array ?? [])) ? 'checked' : ''}} value="{{$list_name}}">
                         <label for="{{\Str::slug($list_name, '_')}}-{{$key}}">{{$list_name}}</label>
                     </div>
                 @endforeach
@@ -31,7 +31,7 @@
             <div class="px-2 py-1 border rounded">
                 @foreach ($field->list_name as $key => $list_name)
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}]" {{$list_name == $field_value->field_value ? 'checked' : ''}} value="{{$list_name}}">
+                        <input type="radio" class="form-check-input" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}]" {{$list_name == ($field_value->field_value ?? null) ? 'checked' : ''}} value="{{$list_name}}">
                         <label for="{{\Str::slug($list_name, '_')}}-{{$key}}">{{$list_name}}</label>
                     </div>
                 @endforeach

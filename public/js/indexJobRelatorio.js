@@ -347,9 +347,19 @@ $(document).ready(function(){
         });
     });
 
-    // Busanco id da lista para o custom field
+    // Buscanco id da lista para o custom field
     $(document).on('click', '[data-target="#modalField"]', function(){
         $('#formModalField').find('[name="list_id"]').val($(this).closest('form').find('[name="list_id"]').val());
+    });
+
+    // Editando dados de titulo da lista
+    $(document).on('click', '#form-task-modal .task_title', function(){
+        $(this).find('h3').addClass('d-none');
+        $(this).find('input').removeClass('d-none').focus();
+    });
+    $(document).on('blur', '#form-task-modal [name="task_title"]', function(){
+        $(this).parent().find('h3').text($(this).val()).removeClass('d-none');
+        $(this).addClass('d-none');
     });
 
     // Sortables das listas

@@ -75,6 +75,14 @@ body {
         }
     }
 
+    .not-edit-custom-fields {
+        .mouse-over-field {
+            .btn-edit-custom-field {
+                display: none;
+            }
+        }
+    }
+
     .modal-task {
         .task-card {
             overflow: auto;

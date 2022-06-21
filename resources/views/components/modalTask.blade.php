@@ -1,4 +1,4 @@
-<form action="{{route('taskUpdate')}}" method="post">
+<form action="{{route('taskUpdate')}}" method="post" id="form-task-modal">
     <input type="hidden" name="job_id" value="{{$job->id}}">
     <input type="hidden" name="list_id" value="{{$job_list->id}}">
     <input type="hidden" name="task_id" value="{{$job_task->id}}">
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div class="row px-2 @if(jobsUserAccess($job->id)) not-custom-fields @endif">
+            <div class="row px-2 @if(jobsUserAccess($job->id)) not-custom-fields @else not-edit-custom-fields @endif">
                 @foreach ($custom_fields->groupBy('list_id') as $custom_fieldsF)
                     @foreach ($custom_fieldsF as $field)
                         @php
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="col-12 col-sm-6 task-card">
-            <div class="row px-2 @if(jobsUserAccess($job->id)) custom-fields @endif">
+            <div class="row px-2 @if(jobsUserAccess($job->id)) custom-fields @else not-edit-custom-fields @endif">
                 @foreach ($custom_fields as $field)
                     @if ($field->jobList)
                         @if ($field->jobList->id == $job_list->id)
