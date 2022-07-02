@@ -100,6 +100,7 @@ $(document).ready(function(){
         }else{
             div_user.find(`#user_assoc_id-${data.id}`).remove();
         }
+        $('.edit-task-TU').trigger('change');
         $('[data-toggle="tooltip"]').tooltip();
     });
 
@@ -117,6 +118,7 @@ $(document).ready(function(){
         }else{
             div_tag.find(`#tag_id-${data.id}`).remove();
         }
+        $('.edit-task-TU').trigger('change');
         $('[data-toggle="tooltip"]').tooltip();
     });
 
@@ -360,6 +362,83 @@ $(document).ready(function(){
     $(document).on('blur', '#form-task-modal [name="task_title"]', function(){
         $(this).parent().find('h3').text($(this).val()).removeClass('d-none');
         $(this).addClass('d-none');
+        data = {
+            task_id: $('[name="task_id"]').val(),
+            job_task_update: 'true',
+            field_update: {
+                field_name: 'task_title',
+                field_value: $(this).val()
+            }
+        };
+        jobTaskFildUpdate(data);
+    });
+    // Editando dados de data da lista
+    $(document).on('click', '#form-task-modal .delivery_date_task', function(){
+        $(this).find('p').addClass('d-none');
+        $(this).find('input').removeClass('d-none').focus();
+    });
+    $(document).on('blur change', '#form-task-modal [name="delivery_date_task"]', function(){
+        $(this).parent().find('p').text($(this).val()).removeClass('d-none');
+        $(this).addClass('d-none');
+        var date = $(this).val().split('/');
+        data = {
+            task_id: $('[name="task_id"]').val(),
+            job_task_update: 'true',
+            field_update: {
+                field_name: 'delivery_date_task',
+                field_value: `${date[2]}-${date[1]}-${date[0]}`
+            }
+        };
+        jobTaskFildUpdate(data);
+    });
+    // Editando dados de tag e user-assoc da lista
+    $(document).on('change', '#form-task-modal .edit-task-TU', function(){
+        var tag_id = [];
+        var user_assoc_id = [];
+        $(this).find('input[name="tag_id[]"]').each(function(){
+            tag_id.push($(this).val());
+        });
+        $(this).find('input[name="user_assoc_id[]"]').each(function(){
+            user_assoc_id.push($(this).val());
+        });
+        data = {
+            task_id: $('[name="task_id"]').val(),
+            job_task_update_tu: 'true',
+            tag_id: tag_id,
+            user_assoc_id: user_assoc_id,
+        };
+        jobTaskFildUpdate(data);
+    });
+    // Editando dados da tarefa
+    $(document).on('blur change', '#form-task-modal .custom-field-update', function(){
+        if($(this).attr('type') !== 'checkbox'){
+            data = {
+                job_id: $(this).closest('form').find('[name="job_id"]').val(),
+                list_id: $(this).closest('form').find('[name="list_id"]').val(),
+                task_id: $(this).closest('form').find('[name="task_id"]').val(),
+                task_update_field: 'true',
+                field_update: {
+                    field_name: $(this).attr('name').replace('custom_fields', '').replaceAll('[','').replaceAll(']',''),
+                    field_value: $(this).val()
+                }
+            };
+        }else{
+            var field_array = [];
+            $(this).parent().parent().find('[type="checkbox"]:checked').each(function(){
+                field_array.push($(this).val());
+            });
+            data = {
+                job_id: $(this).closest('form').find('[name="job_id"]').val(),
+                list_id: $(this).closest('form').find('[name="list_id"]').val(),
+                task_id: $(this).closest('form').find('[name="task_id"]').val(),
+                task_update_field: 'true',
+                field_update: {
+                    field_name: $(this).attr('name').replace('custom_fields', '').replaceAll('[','').replaceAll(']',''),
+                    field_array: field_array
+                }
+            };
+        }
+        jobTaskFildUpdate(data);
     });
 
     // Sortables das listas
@@ -453,5 +532,14 @@ function activeSortableRelList(){
             },
             // containment: "document",
         }).disableSelection();
+    });
+}
+
+function jobTaskFildUpdate(data){
+    $.ajax({
+        url: taskUpdate,
+        type: 'POST',
+        data: data,
+        success: (data) => {}
     });
 }

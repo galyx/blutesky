@@ -199,7 +199,44 @@ class JobTaskController extends Controller
             }
         }
 
-        
+        if(isset($request->job_task_update)){
+            JobTask::find($request->task_id)->update([$request->field_update['field_name'] => $request->field_update['field_value']]);
+        }
+
+        if(isset($request->job_task_update_tu)){
+            if(!empty($request->tag_id)) JobTaskTag::where('task_id', $request->task_id)->delete();
+            if(!empty($request->user_assoc_id)) JobTaskAssociate::where('task_id', $request->task_id)->delete();
+
+            foreach (($request->user_assoc_id ?? []) as $key => $value) {
+                if(!empty($value)){
+                    $job_task_associate_create['task_id'] = $request->task_id;
+                    $job_task_associate_create['user_id'] = $value;
+                    $job_task_associate_create['total_time_task'] = '000:00:00';
+                    JobTaskAssociate::create($job_task_associate_create);
+                }
+            }
+
+            foreach (($request->tag_id ?? []) as $key => $value) {
+                if(!empty($value)){
+                    $job_task_tag_create['task_id'] = $request->task_id;
+                    $job_task_tag_create['tag_id'] = $value;
+                    JobTaskTag::create($job_task_tag_create);
+                }
+            }
+        }
+
+        if(isset($request->task_update_field)){
+            JobTaskField::where('task_id',$request->task_id)->where('field_label_id', $request->field_update['field_name'])->update(['field_value' => ($request->field_update['field_value'] ?? null), 'field_array' => ($request->field_update['field_array'] ?? null)]);
+            if(JobTaskField::where('task_id',$request->task_id)->where('field_label_id', $request->field_update['field_name'])->get()->count() == 0){
+                $job_task_field['job_id'] = $request->job_id;
+                $job_task_field['list_id'] = $request->list_id;
+                $job_task_field['task_id'] = $request->task_id;
+                $job_task_field['field_label_id'] = $request->field_update['field_name'];
+                $job_task_field['field_value'] = $request->field_update['field_value'] ?? null;
+                $job_task_field['field_array'] = $request->field_update['field_array'] ?? null;
+                JobTaskField::create($job_task_field);
+            }
+        }
 
         return response()->json();
     }
@@ -305,6 +342,10 @@ class JobTaskController extends Controller
         CustomField::where('job_id', $request->job_id)->where(function($query) use($request){
             if($request->list_id) return $query->where('list_id', $request->list_id);
         })->where('label_field_id', $request->label_field_id)->delete();
+
+        ##########################################################################################################
+        ##########NÂO ESQUECER DE COLOCAR FUNÇÂO PAAR APAAGRA DADOS DO FILD NAS TASK##############################
+        ##########################################################################################################
 
         return response()->json();
     }

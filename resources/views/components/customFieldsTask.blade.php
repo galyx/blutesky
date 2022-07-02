@@ -11,7 +11,7 @@
         @case('text')
         @case('time')
         @case('email')
-            <input type="{{$field->field_type}}" value="{{$field_value->field_value ?? ''}}" class="form-control form-control-sm" name="custom_fields[{{$field->label_field_id}}]">
+            <input type="{{$field->field_type}}" value="{{$field_value->field_value ?? ''}}" class="form-control form-control-sm custom-field-update" name="custom_fields[{{$field->label_field_id}}]">
             @break
         {{-- @case('attachment')
             <br>
@@ -21,7 +21,7 @@
             <div class="px-2 py-1 border rounded">
                 @foreach ($field->list_name as $key => $list_name)
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}][]" {{in_array($list_name,($field_value->field_array ?? [])) ? 'checked' : ''}} value="{{$list_name}}">
+                        <input type="checkbox" class="form-check-input custom-field-update" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}][]" {{in_array($list_name,($field_value->field_array ?? [])) ? 'checked' : ''}} value="{{$list_name}}">
                         <label for="{{\Str::slug($list_name, '_')}}-{{$key}}">{{$list_name}}</label>
                     </div>
                 @endforeach
@@ -31,7 +31,7 @@
             <div class="px-2 py-1 border rounded">
                 @foreach ($field->list_name as $key => $list_name)
                     <div class="form-check">
-                        <input type="radio" class="form-check-input" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}]" {{$list_name == ($field_value->field_value ?? null) ? 'checked' : ''}} value="{{$list_name}}">
+                        <input type="radio" class="form-check-input custom-field-update" id="{{\Str::slug($list_name, '_')}}-{{$key}}" name="custom_fields[{{$field->label_field_id}}]" {{$list_name == ($field_value->field_value ?? null) ? 'checked' : ''}} value="{{$list_name}}">
                         <label for="{{\Str::slug($list_name, '_')}}-{{$key}}">{{$list_name}}</label>
                     </div>
                 @endforeach
@@ -40,11 +40,14 @@
         @case('date')
         @case('moeda')
         @case('date_time')
-            <input type="text" class="form-control form-control-sm field_mask" value="{{$field_value->field_value ?? ''}}" data-field_type="{{$field->field_type}}" data-field_mask="{{$field->field_mask}}" name="custom_fields[{{$field->label_field_id}}]">
+            <input type="text" class="form-control form-control-sm field_mask custom-field-update" value="{{$field_value->field_value ?? ''}}" data-field_type="{{$field->field_type}}" data-field_mask="{{$field->field_mask}}" name="custom_fields[{{$field->label_field_id}}]">
             @break
         @case('select')
-            <select class="form-control form-control-sm" name="custom_fields[{{$field->label_field_id}}]">
+            <select class="form-control form-control-sm custom-field-update" name="custom_fields[{{$field->label_field_id}}]">
                 <option value="">Escolha um Opção</option>
+                @php
+                    $field_value = $field_value ?? null;
+                @endphp
                 {!!collect($field->list_name)->map(function($query) use($field_value){return '<option value="'.$query.'" '.(($field_value->field_value ?? null) == $query ? 'selected' : '').'>'.$query.'</option>';})->join('')!!}
             </select>
             @break

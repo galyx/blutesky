@@ -35,7 +35,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-12">
+                <div class="form-group col-12 delivery_date_task">
                     <label for="">Data da Entrega</label>
                     <p>{{date('d/m/Y', strtotime($job_task->delivery_date_task))}}</p>
                     <input type="text" name="delivery_date_task" value="{{date('d/m/Y', strtotime($job_task->delivery_date_task))}}" class="form-control d-none date-mask-single">
